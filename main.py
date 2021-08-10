@@ -84,6 +84,7 @@ if __name__ == "__main__":
     print(f'Witches: {witches}')
     print()
     
+    #test
     #send_email_to_wolves(wolves)
     #send_email_to_others(witches, 'Witch')
     #send_email_to_others(participants, 'Villager')
