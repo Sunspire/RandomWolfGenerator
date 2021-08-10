@@ -12,17 +12,17 @@ def main():
     send_email = bool(int(game_config['send_email']))
 
     wolves = []
-    wolves_and_remaining_villagers = assign_role('wolf', number_of_wolves, villagers)
+    wolves_and_remaining_villagers = assign_role(number_of_wolves, villagers)
     wolves = wolves_and_remaining_villagers[0]
     villagers = wolves_and_remaining_villagers[1]
 
     witches = []
-    witches_and_remaining_villagers = assign_role('witch', number_of_witches, villagers)
+    witches_and_remaining_villagers = assign_role(number_of_witches, villagers)
     witches = witches_and_remaining_villagers[0]
     villagers = witches_and_remaining_villagers[1]
 
     cupids = []
-    cupids_and_remaining_villagers = assign_role('cupid', number_of_cupids, villagers)
+    cupids_and_remaining_villagers = assign_role(number_of_cupids, villagers)
     cupids = cupids_and_remaining_villagers[0]
     villagers = cupids_and_remaining_villagers[1]
 
