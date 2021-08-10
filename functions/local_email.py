@@ -33,7 +33,7 @@ def send_email_to_wolves(wolves = [], villagers = []):
         print('Wolf email sent')
 
 
-def send_email_to_others(recipients, subject):
+def send_email_to_others(recipients = [], subject: str = ''):
     if len(recipients) == 0:
         return
         
