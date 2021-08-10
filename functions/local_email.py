@@ -34,6 +34,9 @@ def send_email_to_wolves(wolves = [], villagers = []):
 
 
 def send_email_to_others(recipients, subject):
+    if len(recipients) == 0:
+        return
+        
     config = get_email_config()
 
     SMTP_SERVER = config['smtp_server']
