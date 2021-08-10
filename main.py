@@ -1,90 +1,46 @@
-import random
-import smtplib
+from functions.general import get_player_config, get_game_config
+from functions.roles import assign_role
+from functions.local_email import send_email_to_wolves, send_email_to_others
 
 
-participants = [
-                ['name1','email1@somedomain.com'], 
-                ['name2','email2@somedomain.com'], 
-                ['name3','email3@somedomain.com'], 
-                ['name4','email4@somedomain.com']]
-wolves = []
-witches = []
-number_of_wolves = 2
-number_of_witches = 2
+def main():
+    villagers = get_player_config()
+    game_config = get_game_config()
+    number_of_wolves = int(game_config['wolf'])
+    number_of_witches = int(game_config['witch'])
+    number_of_cupids = int(game_config['cupid'])
+    send_email = bool(int(game_config['send_email']))
 
-SMTP_SERVER = 'localhost'
-SMTP_PORT = 25
-SMTP_LOGIN = 'login'
-SMTP_PASSWORD = 'password'
-EMAIL_FROM = 'sender@somedomain.com'
+    wolves = []
+    wolves_and_remaining_villagers = assign_role('wolf', number_of_wolves, villagers)
+    wolves = wolves_and_remaining_villagers[0]
+    villagers = wolves_and_remaining_villagers[1]
 
+    witches = []
+    witches_and_remaining_villagers = assign_role('witch', number_of_witches, villagers)
+    witches = witches_and_remaining_villagers[0]
+    villagers = witches_and_remaining_villagers[1]
 
-def assign_wolves():
-    i = 1
-    while i <= number_of_wolves:
-        index = random.randrange(0, len(participants))
-        wolves.append(participants[index])
-        participants.pop(index)
-        i += 1
+    cupids = []
+    cupids_and_remaining_villagers = assign_role('cupid', number_of_cupids, villagers)
+    cupids = cupids_and_remaining_villagers[0]
+    villagers = cupids_and_remaining_villagers[1]
 
-
-def assign_witches():
-    i = 1
-    while i <= number_of_witches:
-        index = random.randrange(0, len(participants))
-        witches.append(participants[index])
-        participants.pop(index)
-        i += 1
-
-
-def send_email_to_wolves(recipients):
-    the_recipients = []
-
-    for i, recipient in enumerate(recipients):
-        the_recipients.append(recipient[1])
-
-    message = f'''\
-        Subject: Wolves - HangarWW Werewolf Game
-
-        You are wolves. Communicate with each other privately in MSTeams.
-        {recipients}
-    '''
-
-    with smtplib.SMTP(SMTP_SERVER, SMTP_PORT) as server:
-        server.login(SMTP_LOGIN, SMTP_PASSWORD)
-        server.sendmail(EMAIL_FROM, the_recipients, message)
-
-
-def send_email_to_others(recipients, subject):
-    the_recipients = []
-
-    for i, recipient in enumerate(recipients):
-        the_recipients.append(recipient[1])
-    
-    message = f'''\
-        Subject: {subject} - HangarWW Werewolf Game
-
-        You are a {subject}.
-    '''
-    
-    with smtplib.SMTP(SMTP_SERVER, SMTP_PORT) as server:
-        server.login(SMTP_LOGIN, SMTP_PASSWORD)
-
-        for recipient in the_recipients:
-            server.sendmail(EMAIL_FROM, recipient, message)
-
-
-if __name__ == "__main__":
-    assign_wolves()
-    assign_witches()
-
+    all_villagers = villagers + witches + cupids
     print()
-    print(f'Villagers: {participants}' )
+    print(f'Villagers: {villagers}' )
     print(f'Wolves: {wolves}')
     print(f'Witches: {witches}')
+    print(f'Cupids: {cupids}')
     print()
     
-    #test
-    #send_email_to_wolves(wolves)
-    #send_email_to_others(witches, 'Witch')
-    #send_email_to_others(participants, 'Villager')
+    if send_email:
+        send_email_to_wolves(wolves, all_villagers)
+        send_email_to_others(witches, 'Witch')
+        send_email_to_others(cupids, 'Cupid')
+        send_email_to_others(villagers, 'Villager')
+    else:
+        print('Emails are disabled')
+
+if __name__ == "__main__":
+    main()
