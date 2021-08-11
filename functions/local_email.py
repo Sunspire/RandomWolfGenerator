@@ -4,6 +4,9 @@ from functions.general import get_email_config
 
 def send_email_to_wolves(wolves = [], villagers = []):
     config = get_email_config()
+    if int(config['send_email']) == 0:
+        print('emails are disabled')
+        return
 
     SMTP_SERVER = config['smtp_server']
     SMTP_PORT = int(config['smtp_port'])
@@ -34,11 +37,14 @@ def send_email_to_wolves(wolves = [], villagers = []):
 
 
 def send_email_to_others(recipients = [], subject: str = ''):
+    config = get_email_config()    
+    if int(config['send_email']) == 0:
+        print('emails are disabled')
+        return
+    
     if len(recipients) == 0:
         return
-        
-    config = get_email_config()
-
+    
     SMTP_SERVER = config['smtp_server']
     SMTP_PORT = int(config['smtp_port'])
     SMTP_LOGIN = config['smtp_login']
