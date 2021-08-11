@@ -7,22 +7,16 @@ from termcolor import colored
 def main():
     villagers = get_player_config()
     game_config = get_game_config()
-    number_of_wolves = int(game_config['wolf'])
-    number_of_witches = int(game_config['witch'])
-    number_of_cupids = int(game_config['cupid'])
     
-    wolves = []
-    wolves_and_remaining_villagers = assign_role(number_of_wolves, villagers)
+    wolves_and_remaining_villagers = assign_role(int(game_config['wolf']), villagers)
     wolves = wolves_and_remaining_villagers[0]
     villagers = wolves_and_remaining_villagers[1]
 
-    witches = []
-    witches_and_remaining_villagers = assign_role(number_of_witches, villagers)
+    witches_and_remaining_villagers = assign_role(int(game_config['witch']), villagers)
     witches = witches_and_remaining_villagers[0]
     villagers = witches_and_remaining_villagers[1]
 
-    cupids = []
-    cupids_and_remaining_villagers = assign_role(number_of_cupids, villagers)
+    cupids_and_remaining_villagers = assign_role(int(game_config['cupid']), villagers)
     cupids = cupids_and_remaining_villagers[0]
     villagers = cupids_and_remaining_villagers[1]
 
