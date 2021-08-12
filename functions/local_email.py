@@ -15,19 +15,29 @@ def send_email_to_wolves(wolves = [], villagers = []):
     EMAIL_FROM = config['email_from']
 
     the_recipients = []
+    the_wolves = []
+    for wolf in wolves:
+        the_recipients.append(wolf[1])
+        the_wolves.append(wolf[0])
 
-    for i, recipient in enumerate(wolves):
-        the_recipients.append(recipient[1])
-
-    message = f'''\
-        Subject: Werewolf Game
+    the_wolves.sort()
+    the_wolves_to_string = ', '.join(the_wolves)
+    
+    the_villagers = []
+    for villager in villagers:
+        the_villagers.append(villager[0])
+        
+    the_villagers.sort()
+    the_villagers_to_string = ', '.join(the_villagers)
+    
+    message = f'''Subject: Werewolf Game
 
         You are wolves. Communicate with each other privately in MSTeams.
         Wolves: 
-        {wolves}
+        {the_wolves_to_string}
 
         These are the villagers that you can kill: 
-        {villagers}
+        {the_villagers_to_string}
     '''
     
     with smtplib.SMTP(SMTP_SERVER, SMTP_PORT) as server:
@@ -53,11 +63,10 @@ def send_email_to_others(recipients = [], subject: str = ''):
 
     the_recipients = []
 
-    for i, recipient in enumerate(recipients):
+    for recipient in recipients:
         the_recipients.append(recipient[1])
     
-    message = f'''\
-        Subject: Werewolf Game
+    message = f'''Subject: Werewolf Game
 
         You are a {subject}.
     '''
