@@ -13,7 +13,7 @@
 1. MC announces night
 2. All cameras and microphones are off, except for the MC
 3. MC asks the wolves to choose a victim
-4. Wolved send the victim's name to the MC (privately)
+4. Wolves send the victim's name to the MC (privately)
 5. MC asks the cupid to make a pair
 6. MC asks witch to save/kill or do nothing
 
